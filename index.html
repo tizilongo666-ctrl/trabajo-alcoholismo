@@ -1,480 +1,338 @@
-'use client';
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Adolescencia y su Relación con el Alcohol | Informe Preventivo</title>
+  
+  <!-- Tipografía Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-import React, { useState } from 'react';
-import { 
-  AlertCircle, 
-  Activity, 
-  AlertTriangle, 
-  ShieldAlert, 
-  Users, 
-  Brain, 
-  HeartPulse, 
-  HelpCircle, 
-  Pill, 
-  CheckCircle2, 
-  XCircle, 
-  RotateCcw, 
-  PhoneCall, 
-  Download, 
-  Shield, 
-  ExternalLink 
-} from 'lucide-react';
-
-export default function Home() {
-  // Estados para el Quiz Interactivo
-  const [answers, setAnswers] = useState<{ [key: number]: number }>({});
-  const [showResults, setShowResults] = useState(false);
-
-  const questions = [
-    {
-      id: 1,
-      question: "¿Es verdad que el alcohol actúa como un estimulante del cerebro?",
-      options: [
-        "Sí, porque aumenta la energía cerebral.",
-        "No, es un depresor que desinhibe al reducir los mecanismos de control.",
-        "Sí, si se consume en bajas dosis."
-      ],
-      correctIndex: 1,
-      explanation: "El alcohol es un depresor del Sistema Nervioso Central. La euforia inicial ocurre porque inhibe las zonas del cerebro encargadas del autocontrol."
-    },
-    {
-      id: 2,
-      question: "¿Una laguna mental ('blackout') equivale a haberse desmayado?",
-      options: [
-        "Sí, es exactamente lo mismo.",
-        "No, la persona sigue despierta pero el cerebro no logra grabar nuevos recuerdos.",
-        "Ocurre solo en personas con adicción avanzada."
-      ],
-      correctIndex: 1,
-      explanation: "Durante una laguna mental, el etanol impide neurológicamente la fijación de la memoria a corto plazo en el hipocampo, aunque la persona continúe despierta."
-    },
-    {
-      id: 3,
-      question: "En menores de 18 años, ¿cuál es el nivel de consumo seguro según SEDRONAR?",
-      options: [
-        "Un vaso los fines de semana.",
-        "Solo bebidas de baja graduación como cerveza.",
-        "Ninguno. Todo consumo en menores es considerado de riesgo."
-      ],
-      correctIndex: 2,
-      explanation: "Debido a que el cerebro está en pleno desarrollo, las autoridades de salud establecen que cualquier ingesta en menores de 18 años implica riesgo."
+  <style>
+    /* RESET & ESTILOS BASE */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-  ];
 
-  const handleSelect = (questionId: number, optionIndex: number) => {
-    if (showResults) return;
-    setAnswers(prev => ({ ...prev, [questionId]: optionIndex }));
-  };
+    html {
+      scroll-behavior: smooth;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #0f172a;
+      background-color: #ffffff;
+      line-height: 1.5;
+    }
 
-  const handleReset = () => {
-    setAnswers({});
-    setShowResults(false);
-  };
+    body {
+      overflow-x: hidden;
+    }
 
-  const calculateScore = () => {
-    let score = 0;
-    questions.forEach(q => {
-      if (answers[q.id] === q.correctIndex) score++;
-    });
-    return score;
-  };
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-  const stats = [
-    {
-      icon: Users,
-      value: '47,7%',
-      label: '13 a 15 Años',
-      description: 'Declaró haber consumido alcohol durante los últimos 30 días.',
-    },
-    {
-      icon: Activity,
-      value: '67,6%',
-      label: '16 a 17 Años',
-      description: 'Prevalencia de consumo activo en el último mes según datos históricos escolares.',
-    },
-    {
-      icon: AlertTriangle,
-      value: 'Lagunas',
-      label: 'Efecto del consumo alto',
-      description: 'El alcohol impide la formación de nuevos recuerdos. No es un desmayo, es un bloqueo neurológico.',
-    },
-    {
-      icon: ShieldAlert,
-      value: 'Sustancia Psicoactiva',
-      label: 'Droga Legal',
-      description: 'Contiene etanol, clasificado por la OMS como tóxico y con capacidad de causar dependencia.',
-    },
-  ];
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
 
-  return (
-    <main className="min-h-screen bg-white text-slate-900 font-sans antialiased selection:bg-rose-500 selection:text-white">
-      
-      {/* 1. HERO SECTION */}
-      <section className="relative bg-slate-900 text-white pt-24 pb-20 md:pt-32 md:pb-28 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-rose-500/10 via-slate-900/50 to-transparent pointer-events-none" />
+    /* CONTENEDOR CENTRAL */
+    .container {
+      max-width: 1152px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
 
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium mb-8">
-            <AlertCircle className="w-4 h-4" />
-            <span>Informe de Salud Pública e Intervención Social</span>
-          </div>
+    .container-narrow {
+      max-width: 896px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-100 max-w-4xl leading-[1.1]">
-            La adolescencia y su relación con el alcohol
-          </h1>
+    /* 1. HERO SECTION */
+    .hero {
+      position: relative;
+      background-color: #0f172a;
+      color: #ffffff;
+      padding-top: 6rem;
+      padding-bottom: 5rem;
+      overflow: hidden;
+    }
 
-          <p className="mt-6 text-lg md:text-xl text-slate-300 max-w-2xl font-light leading-relaxed">
-            En Argentina, todo consumo en menores de 18 años es considerado de riesgo. Comprender los factores biológicos, sociales y emocionales es el primer paso para proteger el desarrollo de nuestros jóvenes.
-          </p>
+    .hero-glow {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 80rem;
+      height: 24rem;
+      background: radial-gradient(circle, rgba(244, 63, 94, 0.15) 0%, rgba(15, 23, 42, 0.5) 60%, transparent 100%);
+      pointer-events: none;
+    }
 
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-8 border-t border-slate-800">
-            <div>
-              <span className="block text-4xl md:text-5xl font-black text-rose-400">2 de cada 3</span>
-              <span className="mt-2 block text-sm text-slate-400 leading-snug">
-                Jóvenes en Argentina inician el consumo antes de los 14 años (EMSE 2018).
-              </span>
-            </div>
-            <div>
-              <span className="block text-4xl md:text-5xl font-black text-slate-100">100%</span>
-              <span className="mt-2 block text-sm text-slate-400 leading-snug">
-                Vulnerabilidad del cerebro en desarrollo frente a daños de memoria y aprendizaje.
-              </span>
-            </div>
-            <div className="sm:col-span-2 lg:col-span-1">
-              <span className="block text-4xl md:text-5xl font-black text-slate-100">&lt; 18 Años</span>
-              <span className="mt-2 block text-sm text-slate-400 leading-snug">
-                Edad mínima legal de venta (Ley 24.788). Cero consumo es la meta.
-              </span>
-            </div>
-          </div>
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      background-color: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.2);
+      color: #fb7185;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
+    }
 
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <a
-              href="#informe"
-              className="inline-flex items-center justify-center px-6 py-3.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-semibold transition-colors duration-200 shadow-lg shadow-rose-900/20"
-            >
-              Leer Informe Completo
-            </a>
-            <a
-              href="#recursos"
-              className="inline-flex items-center justify-center px-6 py-3.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold transition-colors duration-200"
-            >
-              Buscar Ayuda e Información
-            </a>
-          </div>
-        </div>
-      </section>
+    .hero-title {
+      font-size: 2.25rem;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: #f8fafc;
+      max-width: 56rem;
+    }
 
-      {/* 2. GRID DE ESTADÍSTICAS */}
-      <section className="py-16 md:py-24 bg-slate-50 border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 tracking-tight">
-              Datos clave y magnitud del problema
-            </h2>
-            <p className="mt-3 text-slate-600">
-              Estadísticas e información sobre la presencia del alcohol en la juventud.
-            </p>
-          </div>
+    @media (min-width: 768px) {
+      .hero-title {
+        font-size: 3.75rem;
+      }
+    }
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={idx}
-                  className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-800 mb-4">
-                    <Icon className="w-5 h-5 text-rose-600" />
-                  </div>
-                  <div className="text-3xl font-black text-slate-900 tracking-tight">{item.value}</div>
-                  <div className="text-sm font-semibold text-rose-600 mt-1">{item.label}</div>
-                  <p className="text-sm text-slate-600 mt-3 leading-relaxed">{item.description}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+    .hero-subtitle {
+      margin-top: 1.5rem;
+      font-size: 1.125rem;
+      color: #cbd5e1;
+      font-weight: 300;
+      max-width: 42rem;
+      line-height: 1.6;
+    }
 
-      {/* 3. SECCIONES DE CONTENIDO */}
-      <section id="informe" className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-6 space-y-20">
-          
-          <article>
-            <div className="flex items-center gap-3 text-rose-600 font-semibold mb-3">
-              <Brain className="w-6 h-6" />
-              <span>Desarrollo y Biología</span>
-            </div>
-            <h2 className="text-3xl font-bold text-slate-900 tracking-tight mb-6">
-              El cerebro adolescente: Una etapa de alta vulnerabilidad
-            </h2>
-            <p className="text-slate-700 text-lg leading-relaxed">
-              La adolescencia (10 a 19 años, según la OMS) es un período crítico donde se construye la identidad y se consolidan los circuitos cerebrales. Durante esta etapa, las regiones relacionadas con la memoria, el aprendizaje y la regulación emocional aún continúan desarrollándose.
-            </p>
-            <div className="bg-slate-50 border-l-4 border-slate-900 p-6 my-6 rounded-r-lg">
-              <p className="text-slate-800 font-medium text-base m-0 italic">
-                &quot;La prevención no consiste solo en advertir sobre adicciones a largo plazo. Busca evitar daños inmediatos provocados en un único episodio de consumo, como intoxicaciones o siniestros.&quot;
-              </p>
-            </div>
-          </article>
+    .hero-stats {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #1e293b;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
 
-          <article>
-            <div className="flex items-center gap-3 text-rose-600 font-semibold mb-3">
-              <HelpCircle className="w-6 h-6" />
-              <span>Factores de Riesgo</span>
-            </div>
-            <h2 className="text-3xl font-bold text-slate-900 tracking-tight mb-6">
-              ¿Por qué se produce el consumo en la juventud?
-            </h2>
-            <p className="text-slate-700 text-lg leading-relaxed mb-6">
-              No existe una única causa. El inicio en el consumo de alcohol suele responder a una combinación de factores individuales, socioemocionales y culturales:
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-5 border border-slate-200 rounded-xl bg-slate-50/50">
-                <h4 className="font-bold text-slate-900 mb-1">Curiosidad y Autonomía</h4>
-                <p className="text-sm text-slate-600">La búsqueda de nuevas experiencias es natural en el desarrollo, pero el alcohol altera la evaluación objetiva de riesgos.</p>
-              </div>
-              <div className="p-5 border border-slate-200 rounded-xl bg-slate-50/50">
-                <h4 className="font-bold text-slate-900 mb-1">Entorno y Presión Social</h4>
-                <p className="text-sm text-slate-600">La validación entre pares cobra un peso central y puede inducir a conductas de consumo acelerado o excesivo.</p>
-              </div>
-              <div className="p-5 border border-slate-200 rounded-xl bg-slate-50/50">
-                <h4 className="font-bold text-slate-900 mb-1">Alivio del Malestar Emocional</h4>
-                <p className="text-sm text-slate-600">En algunos casos se utiliza para afrontar la angustia, el estrés o la timidez, actuando como un mecanismo de evasión perjudicial.</p>
-              </div>
-              <div className="p-5 border border-slate-200 rounded-xl bg-slate-50/50">
-                <h4 className="font-bold text-slate-900 mb-1">Modelos y Tolerancia Cultural</h4>
-                <p className="text-sm text-slate-600">La presencia del alcohol en eventos familiares y la alta aceptación social disminuyen la percepción de peligro.</p>
-              </div>
-            </div>
-          </article>
+    @media (min-width: 640px) {
+      .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
 
-          <article>
-            <div className="flex items-center gap-3 text-rose-600 font-semibold mb-3">
-              <HeartPulse className="w-6 h-6" />
-              <span>Impacto en la Salud</span>
-            </div>
-            <h2 className="text-3xl font-bold text-slate-900 tracking-tight mb-6">
-              Consecuencias físicas, psicológicas y sociales
-            </h2>
-            <div className="space-y-6 text-slate-700">
-              <div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Consecuencias Inmediatas</h3>
-                <p className="leading-relaxed">
-                  El alcohol altera la capacidad de juicio, incrementando la exposición a violencia, siniestros viales y prácticas de riesgo. Intoxicaciones agudas pueden generar vómitos, convulsiones y depresión respiratoria. Asimismo, se destacan las <strong>lagunas mentales</strong>, producidas porque el etanol bloquea de forma temporal la fijación de recuerdos en el cerebro.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Consecuencias a Largo Plazo</h3>
-                <p className="leading-relaxed">
-                  Patrones de consumo episódico e intenso en la adolescencia se asocian con problemas de memoria, aprendizaje y regulación afectiva. Con los años, aumenta el riesgo de desarrollar hepatopatías, afecciones cardiovasculares y trastornos por uso de sustancias.
-                </p>
-              </div>
-            </div>
-          </article>
+    @media (min-width: 1024px) {
+      .hero-stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
 
-          <article className="p-8 bg-slate-900 text-white rounded-2xl">
-            <div className="flex items-center gap-3 text-rose-400 font-semibold mb-3">
-              <Pill className="w-6 h-6" />
-              <span>Interacción Farmacológica</span>
-            </div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Mezclas de sustancias y magnificación de riesgos
-            </h2>
-            <p className="text-slate-300 leading-relaxed mb-6">
-              Combinar alcohol con otras sustancias potencia el deterioro neurológico. Ninguna sustancia actúa como antídoto de otra.
-            </p>
-            <ul className="space-y-3 text-sm text-slate-300 border-t border-slate-800 pt-4">
-              <li className="flex items-start gap-2">
-                <strong className="text-slate-100 min-w-[160px]">Con Benzodiacepinas:</strong>
-                <span>Aumenta drásticamente la depresión del sistema nervioso y el riesgo de paro respiratorio.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <strong className="text-slate-100 min-w-[160px]">Con Opioides:</strong>
-                <span>Combinación altamente letal por supresión sinérgica del reflejo respiratorio.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <strong className="text-slate-100 min-w-[160px]">Con Cannabis:</strong>
-                <span>Produce un deterioro motor y cognitivo significativamente superior al de cada sustancia por separado.</span>
-              </li>
-            </ul>
-          </article>
+    .stat-number {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #f8fafc;
+    }
 
-        </div>
-      </section>
+    .stat-number.accent {
+      color: #fb7185;
+    }
 
-      {/* 4. SECCIÓN INTERACTIVA (QUIZ) */}
-      <section className="py-20 bg-slate-900 text-white">
-        <div className="max-w-3xl mx-auto px-6">
-          <div className="text-center mb-10">
-            <span className="text-rose-400 font-semibold text-sm tracking-wider uppercase">Cuestionario Interactivo</span>
-            <h2 className="text-3xl font-bold mt-2">¿Sabías qué...? Ponte a prueba</h2>
-            <p className="text-slate-400 mt-2 text-sm">Responde estas 3 preguntas clave sobre el alcohol en la adolescencia.</p>
-          </div>
+    .stat-desc {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
 
-          <div className="space-y-8">
-            {questions.map((q) => {
-              const selected = answers[q.id];
-              const isAnswered = selected !== undefined;
+    .hero-ctas {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
-              return (
-                <div key={q.id} className="bg-slate-800 p-6 rounded-xl border border-slate-700">
-                  <h3 className="font-semibold text-lg text-slate-100 mb-4">
-                    {q.id}. {q.question}
-                  </h3>
+    @media (min-width: 640px) {
+      .hero-ctas {
+        flex-direction: row;
+      }
+    }
 
-                  <div className="space-y-2">
-                    {q.options.map((opt, idx) => {
-                      let btnStyle = "bg-slate-700/50 hover:bg-slate-700 text-slate-300 border-transparent";
-                      
-                      if (isAnswered && idx === selected) {
-                        btnStyle = idx === q.correctIndex 
-                          ? "bg-emerald-900/40 border-emerald-500 text-emerald-200" 
-                          : "bg-rose-900/40 border-rose-500 text-rose-200";
-                      } else if (showResults && idx === q.correctIndex) {
-                        btnStyle = "bg-emerald-900/40 border-emerald-500 text-emerald-200";
-                      }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.875rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: background-color 0.2s, border-color 0.2s;
+      text-align: center;
+    }
 
-                      return (
-                        <button
-                          key={idx}
-                          onClick={() => handleSelect(q.id, idx)}
-                          disabled={showResults}
-                          className={`w-full text-left p-3.5 rounded-lg border text-sm font-medium transition-all ${btnStyle}`}
-                        >
-                          {opt}
-                        </button>
-                      );
-                    })}
-                  </div>
+    .btn-primary {
+      background-color: #e11d48;
+      color: #ffffff;
+      box-shadow: 0 10px 15px -3px rgba(159, 18, 57, 0.2);
+    }
 
-                  {(showResults || isAnswered) && (
-                    <div className="mt-4 pt-4 border-t border-slate-700/60 text-xs text-slate-300 flex items-start gap-2">
-                      {selected === q.correctIndex ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                      ) : (
-                        <XCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
-                      )}
-                      <span>{q.explanation}</span>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+    .btn-primary:hover {
+      background-color: #f43f5e;
+    }
 
-          <div className="mt-10 flex flex-col items-center gap-4">
-            {!showResults ? (
-              <button
-                onClick={() => setShowResults(true)}
-                disabled={Object.keys(answers).length < questions.length}
-                className="px-6 py-3 rounded-lg bg-rose-600 hover:bg-rose-500 disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-white transition-colors"
-              >
-                Verificar Respuestas
-              </button>
-            ) : (
-              <div className="text-center">
-                <p className="text-lg font-bold mb-4">
-                  Puntaje obtenido: {calculateScore()} de {questions.length}
-                </p>
-                <button
-                  onClick={handleReset}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-sm font-medium text-slate-200"
-                >
-                  <RotateCcw className="w-4 h-4" /> Reiniciar Quiz
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+    .btn-secondary {
+      background-color: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+    }
 
-      {/* 5. RECURSOS Y AYUDA */}
-      <section id="recursos" className="py-20 bg-slate-50 border-t border-slate-200">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="max-w-2xl mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 tracking-tight">
-              Canales de Asistencia y Recursos
-            </h2>
-            <p className="text-slate-600 mt-2">
-              Líneas públicas gratuitas de orientación y material oficial informativo.
-            </p>
-          </div>
+    .btn-secondary:hover {
+      background-color: #334155;
+    }
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-              <div>
-                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-3 py-1 rounded-full mb-4">
-                  <Shield className="w-3.5 h-3.5" /> Argentina - Gratuito y Confidencial
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900">Línea 141 - SEDRONAR</h3>
-                <p className="text-slate-600 text-sm mt-2 leading-relaxed">
-                  Atención, contención y asesoramiento especializado las 24 horas, los 365 días del año para situaciones de consumo de sustancias.
-                </p>
-              </div>
-              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
-                <a
-                  href="tel:141"
-                  className="inline-flex items-center gap-2 text-lg font-bold text-slate-900 hover:text-rose-600 transition-colors"
-                >
-                  <PhoneCall className="w-5 h-5 text-rose-600" /> Llama al 141
-                </a>
-                <a
-                  href="https://www.argentina.gob.ar/sedronar"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-xs text-slate-500 hover:underline inline-flex items-center gap-1"
-                >
-                  Sitio oficial <ExternalLink className="w-3 h-3" />
-                </a>
-              </div>
-            </div>
+    /* 2. GRID DE ESTADÍSTICAS */
+    .stats-section {
+      padding: 5rem 0;
+      background-color: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+    }
 
-            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-              <div>
-                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-3 py-1 rounded-full mb-4">
-                  Documento Técnico
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900">Descargar Informe Completo</h3>
-                <p className="text-slate-600 text-sm mt-2 leading-relaxed">
-                  Obtén la síntesis en PDF sobre factores biológicos, encuestas EMSE/UNICEF y recomendaciones preventivas para escuelas y familias.
-                </p>
-              </div>
-              <div className="mt-8 pt-6 border-t border-slate-100">
-                <a
-                  href="#descargar"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    alert("El archivo PDF del informe completo estará disponible próximamente para descarga.");
-                  }}
-                  className="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm transition-colors cursor-pointer"
-                >
-                  <Download className="w-4 h-4" /> Descargar PDF Informativo
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    .section-header {
+      text-align: center;
+      max-width: 42rem;
+      margin: 0 auto 3rem auto;
+    }
 
-      {/* 6. FOOTER INSTITUCIONAL */}
-      <footer className="bg-slate-950 text-slate-400 py-12 border-t border-slate-800 text-sm">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div>
-            <p className="font-semibold text-slate-200">Plataforma de Concientización e Información Preventiva</p>
-            <p className="text-xs text-slate-500 mt-1">
-              Basado en datos de OMS, NIH, UNICEF, SAP y SEDRONAR.
-            </p>
-          </div>
-          <div className="text-xs text-slate-500 text-center md:text-right">
-            <p>Esta plataforma es de carácter netamente educativo e informativo.</p>
-            <p className="mt-1">© {new Date().getFullYear()} - Todos los derechos reservados.</p>
-          </div>
-        </div>
-      </footer>
+    .section-title {
+      font-size: 1.875rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.025em;
+    }
 
-    </main>
-  );
-}
+    .section-desc {
+      margin-top: 0.75rem;
+      color: #475569;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 640px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .stat-card {
+      background-color: #ffffff;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      transition: box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.5rem;
+      background-color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e11d48;
+      margin-bottom: 1rem;
+    }
+
+    .card-val {
+      font-size: 1.875rem;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.025em;
+    }
+
+    .card-lbl {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #e11d48;
+      margin-top: 0.25rem;
+    }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: #475569;
+      margin-top: 0.75rem;
+      line-height: 1.5;
+    }
+
+    /* 3. SECCIONES DE CONTENIDO EDITORIAL */
+    .content-section {
+      padding: 5rem 0;
+      background-color: #ffffff;
+    }
+
+    .articles-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 5rem;
+    }
+
+    .category-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #e11d48;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .article-title {
+      font-size: 1.875rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.025em;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-text {
+      color: #334155;
+      font-size: 1.125rem;
+      line-height: 1.7;
+    }
+
+    .quote-box {
+      background-color: #f8fafc;
+      border-left: 4px solid #0f172a;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-top-right-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+    }
+
+    .quote-box p {
+      color: #1e293b;
+      font-weight: 500;
+      font-style: italic
